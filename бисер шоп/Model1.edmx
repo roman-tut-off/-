@@ -1,0 +1,274 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище shopModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="kategoriya">
+          <Key>
+            <PropertyRef Name="id_kat" />
+          </Key>
+          <Property Name="id_kat" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="naimenovanie" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tovar">
+          <Key>
+            <PropertyRef Name="id_tovar" />
+          </Key>
+          <Property Name="id_tovar" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="opisanie" Type="varchar(max)" Nullable="false" />
+          <Property Name="cena" Type="int" Nullable="false" />
+          <Property Name="kolichestvo" Type="int" Nullable="false" />
+          <Property Name="kartinka" Type="varchar(max)" Nullable="false" />
+          <Property Name="id_kat" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="id_user" />
+          </Key>
+          <Property Name="id_user" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nickname" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="parol" Type="varchar(max)" Nullable="false" />
+          <Property Name="telefon" Type="varchar" MaxLength="11" Nullable="false" />
+          <Property Name="pochta" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="zakaz">
+          <Key>
+            <PropertyRef Name="id_zakaz" />
+          </Key>
+          <Property Name="id_zakaz" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_tovar" Type="int" Nullable="false" />
+          <Property Name="id_user" Type="int" Nullable="false" />
+          <Property Name="kolichestvo" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="fk1">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="zakaz" Type="Self.zakaz" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id_user" />
+            </Principal>
+            <Dependent Role="zakaz">
+              <PropertyRef Name="id_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk2">
+          <End Role="tovar" Type="Self.tovar" Multiplicity="1" />
+          <End Role="zakaz" Type="Self.zakaz" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tovar">
+              <PropertyRef Name="id_tovar" />
+            </Principal>
+            <Dependent Role="zakaz">
+              <PropertyRef Name="id_tovar" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk5">
+          <End Role="kategoriya" Type="Self.kategoriya" Multiplicity="1" />
+          <End Role="tovar" Type="Self.tovar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kategoriya">
+              <PropertyRef Name="id_kat" />
+            </Principal>
+            <Dependent Role="tovar">
+              <PropertyRef Name="id_kat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище shopModelContainer">
+          <EntitySet Name="kategoriya" EntityType="Self.kategoriya" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tovar" EntityType="Self.tovar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="zakaz" EntityType="Self.zakaz" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk1" Association="Self.fk1">
+            <End Role="users" EntitySet="users" />
+            <End Role="zakaz" EntitySet="zakaz" />
+          </AssociationSet>
+          <AssociationSet Name="fk2" Association="Self.fk2">
+            <End Role="tovar" EntitySet="tovar" />
+            <End Role="zakaz" EntitySet="zakaz" />
+          </AssociationSet>
+          <AssociationSet Name="fk5" Association="Self.fk5">
+            <End Role="kategoriya" EntitySet="kategoriya" />
+            <End Role="tovar" EntitySet="tovar" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="shopModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="kategoriya">
+          <Key>
+            <PropertyRef Name="id_kat" />
+          </Key>
+          <Property Name="id_kat" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="naimenovanie" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tovar" Relationship="Self.fk5" FromRole="kategoriya" ToRole="tovar" />
+        </EntityType>
+        <EntityType Name="tovar">
+          <Key>
+            <PropertyRef Name="id_tovar" />
+          </Key>
+          <Property Name="id_tovar" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="opisanie" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="cena" Type="Int32" Nullable="false" />
+          <Property Name="kolichestvo" Type="Int32" Nullable="false" />
+          <Property Name="kartinka" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="id_kat" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="kategoriya" Relationship="Self.fk5" FromRole="tovar" ToRole="kategoriya" />
+          <NavigationProperty Name="zakaz" Relationship="Self.fk2" FromRole="tovar" ToRole="zakaz" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="id_user" />
+          </Key>
+          <Property Name="id_user" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nickname" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="parol" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="telefon" Type="String" MaxLength="11" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="pochta" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="zakaz" Relationship="Self.fk1" FromRole="users" ToRole="zakaz" />
+        </EntityType>
+        <EntityType Name="zakaz">
+          <Key>
+            <PropertyRef Name="id_zakaz" />
+          </Key>
+          <Property Name="id_zakaz" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_tovar" Type="Int32" Nullable="false" />
+          <Property Name="id_user" Type="Int32" Nullable="false" />
+          <Property Name="kolichestvo" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tovar" Relationship="Self.fk2" FromRole="zakaz" ToRole="tovar" />
+          <NavigationProperty Name="users" Relationship="Self.fk1" FromRole="zakaz" ToRole="users" />
+        </EntityType>
+        <Association Name="fk5">
+          <End Role="kategoriya" Type="Self.kategoriya" Multiplicity="1" />
+          <End Role="tovar" Type="Self.tovar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kategoriya">
+              <PropertyRef Name="id_kat" />
+            </Principal>
+            <Dependent Role="tovar">
+              <PropertyRef Name="id_kat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk2">
+          <End Role="tovar" Type="Self.tovar" Multiplicity="1" />
+          <End Role="zakaz" Type="Self.zakaz" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tovar">
+              <PropertyRef Name="id_tovar" />
+            </Principal>
+            <Dependent Role="zakaz">
+              <PropertyRef Name="id_tovar" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk1">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="zakaz" Type="Self.zakaz" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id_user" />
+            </Principal>
+            <Dependent Role="zakaz">
+              <PropertyRef Name="id_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="shopEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="kategoriya" EntityType="Self.kategoriya" />
+          <EntitySet Name="tovar" EntityType="Self.tovar" />
+          <EntitySet Name="users" EntityType="Self.users" />
+          <EntitySet Name="zakaz" EntityType="Self.zakaz" />
+          <AssociationSet Name="fk5" Association="Self.fk5">
+            <End Role="kategoriya" EntitySet="kategoriya" />
+            <End Role="tovar" EntitySet="tovar" />
+          </AssociationSet>
+          <AssociationSet Name="fk2" Association="Self.fk2">
+            <End Role="tovar" EntitySet="tovar" />
+            <End Role="zakaz" EntitySet="zakaz" />
+          </AssociationSet>
+          <AssociationSet Name="fk1" Association="Self.fk1">
+            <End Role="users" EntitySet="users" />
+            <End Role="zakaz" EntitySet="zakaz" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище shopModelContainer" CdmEntityContainer="shopEntities">
+          <EntitySetMapping Name="kategoriya">
+            <EntityTypeMapping TypeName="shopModel.kategoriya">
+              <MappingFragment StoreEntitySet="kategoriya">
+                <ScalarProperty Name="id_kat" ColumnName="id_kat" />
+                <ScalarProperty Name="naimenovanie" ColumnName="naimenovanie" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tovar">
+            <EntityTypeMapping TypeName="shopModel.tovar">
+              <MappingFragment StoreEntitySet="tovar">
+                <ScalarProperty Name="id_tovar" ColumnName="id_tovar" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="opisanie" ColumnName="opisanie" />
+                <ScalarProperty Name="cena" ColumnName="cena" />
+                <ScalarProperty Name="kolichestvo" ColumnName="kolichestvo" />
+                <ScalarProperty Name="kartinka" ColumnName="kartinka" />
+                <ScalarProperty Name="id_kat" ColumnName="id_kat" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="shopModel.users">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="id_user" ColumnName="id_user" />
+                <ScalarProperty Name="nickname" ColumnName="nickname" />
+                <ScalarProperty Name="parol" ColumnName="parol" />
+                <ScalarProperty Name="telefon" ColumnName="telefon" />
+                <ScalarProperty Name="pochta" ColumnName="pochta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="zakaz">
+            <EntityTypeMapping TypeName="shopModel.zakaz">
+              <MappingFragment StoreEntitySet="zakaz">
+                <ScalarProperty Name="id_zakaz" ColumnName="id_zakaz" />
+                <ScalarProperty Name="id_tovar" ColumnName="id_tovar" />
+                <ScalarProperty Name="id_user" ColumnName="id_user" />
+                <ScalarProperty Name="kolichestvo" ColumnName="kolichestvo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
